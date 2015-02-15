@@ -1,0 +1,39 @@
+local args = {...}
+
+function loadFile(file)
+  if os.loadAPI(file) then
+    return true
+  else
+    print (file.." : Can't load API!!")
+    return false
+  end 
+end
+
+loadFile("tfg")
+
+local length = 3
+
+if #args >= 1 then
+	length = args[1]
+end
+
+for i = 1, length do
+	tfg.itemCollect(1)
+	for i = 1, 5 do
+		turtle.placeDown()
+		turtle.forward()
+	end
+	turtle.turnLeft()		
+	turtle.forward()
+	turtle.turnLeft()		
+	tfg.itemCollect(1)
+	for i = 1, 4 do
+		turtle.placeDown()
+		turtle.forward()			
+	end
+	turtle.placeDown()
+	turtle.turnRight()
+	turtle.forward()
+	turtle.turnRight()
+	turtle.forward()
+end

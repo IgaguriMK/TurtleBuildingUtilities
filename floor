@@ -1,0 +1,46 @@
+local args = {...}
+
+local length = 5
+local width = 3
+
+if #args >= 1 then
+	length = math.floor(args[1]/2)
+end
+
+if #args >= 2 then
+	width = args[2]
+end
+
+local function pd()
+	turtle.digUp()
+	turtle.digDown()
+	turtle.placeDown()
+end
+
+local function f()
+	turtle.dig()
+	turtle.forward()
+end
+
+local function putLine(n)
+	for xPos = 1, n-1 do
+		pd()
+		f()
+	end
+	pd()
+end
+
+for i = 1, length do
+	turtle.turnRight()
+	putLine(width)
+
+	turtle.turnLeft()
+	f()
+	turtle.turnLeft()
+	putLine(width)
+	turtle.turnRight()
+	f()
+end
+
+turtle.back()
+turtle.back()
