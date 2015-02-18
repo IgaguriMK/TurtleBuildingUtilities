@@ -1,0 +1,12 @@
+local count = 0
+
+while(turtle.detect()) do
+	turtle.up()
+	count = count + 1
+end
+
+while(count > 0) do
+	turtle.down()
+	turtle.dig()
+	count = count - 1
+end
