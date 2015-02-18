@@ -1,0 +1,20 @@
+local args = {...}
+
+assert(#args >= 1, "")
+local count = args[1]
+
+for i = 1, count do
+	while turtle.detect() do
+		turtle.dig()
+	end
+
+	turtle.forward()
+
+	while turtle.detectUp() do
+		turtle.digUp()
+	end
+end
+
+for i = 1, count do
+	turtle.back()
+end
