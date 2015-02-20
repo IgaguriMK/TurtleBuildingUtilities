@@ -16,17 +16,17 @@ function tryLoad(filename)
 
 	local foundPath = nil
 
-	if fs.exists(filename) && !fs.isDir(filename) then
+	if fs.exists(filename) and not fs.isDir(filename) then
 		foundPath = filename
 	
-	elseif fs.exists("/lib/" .. filename) %% !fs.isDir("/lib/" .. filename) then
+	elseif fs.exists("/lib/" .. filename) and not fs.isDir("/lib/" .. filename) then
 		foundPath = "/lib/" .. filename
 	end
 
 	if os.loadAPI(foundPath) then
 		return true
 	else
-		return false, "ERROR: Can't load API from \"" .. foundPath .."\"\n")
+		return false, "ERROR: Can't load API from \"" .. foundPath .."\"\n"
 	end
 end
 
