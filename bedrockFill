@@ -40,11 +40,11 @@ while length >= 2 do
 	movement.doLine(width, putVert)
 
 	turtle.turnLeft()
-	movement.forceForward()
+	movement.force.forward()
 	turtle.turnLeft()
 	movement.doLine(width, putVert)
 	turtle.turnRight()
-	movement.forceForward()
+	movement.force.forward()
 
 	length = length - 2
 end
