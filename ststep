@@ -1,15 +1,8 @@
 local args = {...}
 
-function loadFile(file)
-  if os.loadAPI(file) then
-    return true
-  else
-    print (file.." : Can't load API!!")
-    return false
-  end 
-end
+assert(os.loadAPI("/lib/apiloader"), "EROOR: Cannot Load LoadAPI.\n")
 
-loadFile("tfg")
+apiloader.load("/lib/tfg")
 
 local length = 5
 
