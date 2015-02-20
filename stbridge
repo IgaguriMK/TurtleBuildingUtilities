@@ -1,8 +1,8 @@
---[[ ststep v1.1.0
+--[[ stbridge
 
-	ガード付きの階段を建設する。
+	真っ直ぐなガード付きの橋桁を建設する。
+
 ]]
-
 
 assert(os.loadAPI("/lib/apiloader"), "Can't load apiloader.")
 
@@ -39,7 +39,6 @@ while length >= 2 do
 
 	replaceFront()
 
-	movement.force.up()
 	turtle.turnLeft()
 	movement.force.forward()
 
@@ -51,8 +50,6 @@ while length >= 2 do
 	movement.putLine(width - 2)
 
 	replaceFront()
-
-	movement.force.up()
 	turtle.turnRight()
 	movement.force.forward()
 
@@ -74,6 +71,4 @@ if length == 1 then
 end
 
 turtle.back()
-turtle.down()
 turtle.back()
-turtle.down()

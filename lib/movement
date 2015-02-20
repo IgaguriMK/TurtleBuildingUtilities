@@ -1,4 +1,4 @@
---[[ movement
+--[[ movement v1.1.1
 	汎用タートル動作ライブラリ
 ]]
 
@@ -9,17 +9,53 @@ function putFloorBlock()
 	turtle.placeDown()
 end
 
+-- 動けるまで進行方向を掘り、移動を試み続ける
+force = {}
+force.forward = function()
+			while not turtle.forward() do
+				turtle.dig()
+			end
+		end
+
+force.up = function()
+		while not turtle.up() do
+			turtle.digUp()
+		end
+	end
+
+force.down = function()
+		while not turtle.down() do
+			turtle.digDown()
+		end
+	end
+
+force.back = function()
+		if not turtle.back() then -- 駄目なら
+
+			-- 振り返る
+			turtle.turnRight()
+			turtle.turnRight()
+
+			-- 進むまで前を掘る（攻撃する）
+			while turtle.forward() do
+				turtle.dig()
+			end
+
+			-- 元の方向に戻る
+			turtle.turnRight()
+			turtle.turnRight()
+		end
+	end
+
+-- !DUPRICATED!
 -- 前を掘って前進する
-function forceForward()
-	turtle.dig()
-	return turtle.forward()
-end
+forceForward = force.forward
 
 -- 直線状に指定の動作をする
 function doLine(n, func)
 	for i = 1, n-1 do
 		func(i)
-		forceForward()
+		force.forward()
 	end
 	func(n)
 end
@@ -29,14 +65,50 @@ function putLine(n)
 	doLine(n, putFloorBlock)
 end
 
--- 底につくまで下降し、下降したブロック数を返す
-function goBottom()
-	local yPos = 0
+--[[ tryWhileSucess
 
-	-- 底につくまで下降
-	while turtle.down() do
-		yPos = yPos + 1
+	限界（funcがfalseを返す）まで func　を繰り返し行う
+]]
+function tryWhileSucess(func)
+	local count = 0
+
+	--限界まで行う
+	while func() do
+		count = count + 1
 	end
 
-	return yPos
+	return count
+end
+
+-- 底につくまで下降し、下降したブロック数を返す
+function goEnd(direction)
+	if direction == "down" then
+		return tryWhileSucess(turtle.down)
+	end
+
+	if direction == "up" then
+		return tryWhileSucess(turtle.up)
+	end
+
+	if direction == "front" then
+		return tryWhileSucess(turtle.forward)
+	end
+end
+
+--[[ doTimes
+	
+	指定の関数を指定回数実行する。
+	関数の返り値はテーブルに格納される。
+]]
+function doTimes(count, func)
+	assert(count > 0, "ERROR: count must be positive number.")
+
+	local resList = {}
+
+	for i = 1 , count do
+		local tmp = func()
+		table.insert(resList, tmp)
+	end
+
+	return resList
 end

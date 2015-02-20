@@ -1,4 +1,4 @@
---[[ bedrockFill v1.0.0
+--[[ bedrockFill v1.1.0
 
 	クァーリーで掘った後の岩盤層の凹凸を埋めるプログラム。
 
@@ -14,12 +14,12 @@ apiloader.load("movement")
 -- 底から元の高さまでブロックを積み上げる
 local function putVert()
 	-- まず底まで行く
-	local yPos = movement.goBottom()
+	local yPos = movement.goEnd("down")
 
 	-- 上に上がりながらブロックを置く
 	for i = 1 , yPos do
 		turtle.placeDown()
-		turtle.up()
+		movement.force.up()
 	end
 	turtle.placeDown()
 end
@@ -40,11 +40,11 @@ while length >= 2 do
 	movement.doLine(width, putVert)
 
 	turtle.turnLeft()
-	movement.forceForward()
+	movement.force.forward()
 	turtle.turnLeft()
 	movement.doLine(width, putVert)
 	turtle.turnRight()
-	movement.forceForward()
+	movement.force.forward()
 
 	length = length - 2
 end
