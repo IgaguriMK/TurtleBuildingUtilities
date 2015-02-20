@@ -1,0 +1,42 @@
+--[[ movement
+	汎用タートル動作ライブラリ
+]]
+
+-- プレイヤーが通行可能なように、縦2ブロックのスペースを掘りながら床を置く
+function putFloorBlock()
+	turtle.digUp()
+	turtle.digDown()
+	turtle.placeDown()
+end
+
+-- 前を掘って前進する
+function forceForward()
+	turtle.dig()
+	return turtle.forward()
+end
+
+-- 直線状に指定の動作をする
+function doLine(n, func)
+	for i = 1, n-1 do
+		func(i)
+		forceForward()
+	end
+	func(n)
+end
+
+-- 通行可能なように直線状に床を置く
+function putLine(n)
+	doLine(n, putFloorBlock)
+end
+
+-- 底につくまで下降し、下降したブロック数を返す
+function goBottom()
+	local yPos = 0
+
+	-- 底につくまで下降
+	while turtle.down() do
+		yPos = yPos + 1
+	end
+
+	return yPos
+end
