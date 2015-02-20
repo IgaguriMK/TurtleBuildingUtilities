@@ -10,7 +10,7 @@ apiloader.load("movement")
 
 local usageMessage = "Usage: measure <direction>\n <direction> = up, down, front\n"
 
-local args - {...}
+local args = {...}
 
 if #args < 1 then
 	write(usageMessage)
@@ -34,4 +34,4 @@ else
 	write(usageMessage)
 end
 
-write("Result: " .. tostring(length) .. "blocks.\n")
+write("Result: " .. tostring(length) .. " blocks.\n")
