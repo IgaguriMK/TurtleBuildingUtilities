@@ -1,0 +1,74 @@
+--[[ stbridge
+
+	真っ直ぐなガード付きの橋桁を建設する。
+
+]]
+
+assert(os.loadAPI("/lib/apiloader"), "Can't load apiloader.")
+
+apiloader.load("movement")
+apiloader.load("tfg")
+
+---- function
+
+local function replaceFront()
+	turtle.dig()
+	turtle.place()
+end
+
+---- Main ----
+local args = {...}
+
+assert(#args >= 2, 	"ERROR: There are too few arguments. \n"
+					.. "stbridge <length> <width> \n")
+
+local length = tonumber(args[1])
+local width = tonumber(args[2])
+
+assert(width >= 3, "Error: width must be equal or lager than 3")
+
+while length >= 2 do
+	tfg.itemCollect(1)
+
+	turtle.turnLeft()
+	replaceFront()
+	turtle.turnRight()
+	turtle.turnRight()
+	
+	movement.putLine(width - 2)
+
+	replaceFront()
+
+	turtle.turnLeft()
+	movement.force.forward()
+
+	turtle.turnRight()
+	replaceFront()
+	turtle.turnLeft()
+	turtle.turnLeft()
+
+	movement.putLine(width - 2)
+
+	replaceFront()
+	turtle.turnRight()
+	movement.force.forward()
+
+	length = length -2
+end
+
+if length == 1 then
+	tfg.itemCollect(1)
+
+	turtle.turnLeft()
+	replaceFront()
+	turtle.turnRight()
+	turtle.turnRight()
+	
+	movement.putLine(width - 2)
+
+	replaceFront()
+	turtle.turnLeft()
+end
+
+turtle.back()
+turtle.back()
