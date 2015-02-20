@@ -19,7 +19,7 @@ local function putVert()
 	-- 上に上がりながらブロックを置く
 	for i = 1 , yPos do
 		turtle.placeDown()
-		turtle.up()
+		movement.force.up()
 	end
 	turtle.placeDown()
 end
