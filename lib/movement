@@ -1,4 +1,4 @@
---[[ movement
+--[[ movement v1.1.0
 	汎用タートル動作ライブラリ
 ]]
 
@@ -29,14 +29,50 @@ function putLine(n)
 	doLine(n, putFloorBlock)
 end
 
--- 底につくまで下降し、下降したブロック数を返す
-function goBottom()
-	local yPos = 0
+--[[ tryWhileSucess
 
-	-- 底につくまで下降
-	while turtle.down() do
-		yPos = yPos + 1
+	限界（funcがfalseを返す）まで func　を繰り返し行う
+]]
+function tryWhileSucess(func)
+	local count = 0
+
+	--限界まで行う
+	while func() do
+		count = count + 1
 	end
 
-	return yPos
+	return count
+end
+
+-- 底につくまで下降し、下降したブロック数を返す
+function goEnd(direction)
+	if direction == "down" then
+		return tryWhileSucess(turtle.down)
+	end
+
+	if direction == "up" then
+		return tryWhileSucess(turtle.up)
+	end
+
+	if direction == "front" then
+		return tryWhileSucess(turtle.forward)
+	end
+end
+
+--[[ doTimes
+	
+	指定の関数を指定回数実行する。
+	関数の返り値はテーブルに格納される。
+]]
+function doTimes(count, func)
+	assert(count > 0, "ERROR: count must be positive number.")
+
+	local resList = {}
+
+	for i = 1 , count do
+		local tmp = func()
+		table.insert(resList, tmp)
+	end
+
+	return resList
 end
