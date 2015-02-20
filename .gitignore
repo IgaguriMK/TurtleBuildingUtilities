@@ -1,5 +1,4 @@
 log
-lib/tfg
 *.html
 tmp
 data/*
