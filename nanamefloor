@@ -1,39 +1,42 @@
 local args = {...}
 
-function loadFile(file)
-  if os.loadAPI(file) then
-    return true
-  else
-    print (file.." : Can't load API!!")
-    return false
-  end 
-end
+assert(os.loadAPI("/lib/apiloader"), "Can't load apiloader.")
 
-loadFile("tfg")
+apiloader.load("tfg")
+apiloader.load("movement")
+
 
 local length = 3
+local width = 5
 
 if #args >= 1 then
-	length = args[1]
+	length = tonumber(args[1])
 end
 
-for i = 1, length do
+if #args >= 2 then
+	width = tonumber(args[2])
+end
+
+
+while length >= 2 do
 	tfg.itemCollect(1)
-	for i = 1, 5 do
-		turtle.placeDown()
-		turtle.forward()
-	end
+	movement.doLine(5, turtle.placeDown)
+
+	movement.force.forward()
 	turtle.turnLeft()		
-	turtle.forward()
+	movement.force.forward()
 	turtle.turnLeft()		
-	tfg.itemCollect(1)
-	for i = 1, 4 do
-		turtle.placeDown()
-		turtle.forward()			
-	end
-	turtle.placeDown()
+
+	movement.doLine(5, turtle.placeDown)
+
 	turtle.turnRight()
-	turtle.forward()
+	movement.force.forward()
 	turtle.turnRight()
-	turtle.forward()
+	movement.force.forward()
+
+	length = length - 2
+end
+
+if length == 1 then
+	movement.doLine(5, turtle.placeDown)
 end
