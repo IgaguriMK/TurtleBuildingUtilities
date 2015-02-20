@@ -1,4 +1,4 @@
---[[ movement v1.1.0
+--[[ movement v1.1.1
 	汎用タートル動作ライブラリ
 ]]
 
@@ -9,11 +9,47 @@ function putFloorBlock()
 	turtle.placeDown()
 end
 
+-- 動けるまで進行方向を掘り、移動を試み続ける
+force = {}
+force.forward = function()
+			while not turtle.forward() do
+				turtle.dig()
+			end
+		end
+
+force.up = function()
+		while not turtle.up() do
+			turtle.digUp()
+		end
+	end
+
+force.down = function()
+		while not turtle.down() do
+			turtle.digDown()
+		end
+	end
+
+force.back = function()
+		if not turtle.back() then -- 駄目なら
+
+			-- 振り返る
+			turtle.turnRight()
+			turtle.turnRight()
+
+			-- 進むまで前を掘る（攻撃する）
+			while turtle.forward() do
+				turtle.dig()
+			end
+
+			-- 元の方向に戻る
+			turtle.turnRight()
+			turtle.turnRight()
+		end
+	end
+
+-- !DUPRICATED!
 -- 前を掘って前進する
-function forceForward()
-	turtle.dig()
-	return turtle.forward()
-end
+forceForward = force.forward
 
 -- 直線状に指定の動作をする
 function doLine(n, func)
