@@ -1,0 +1,37 @@
+--[[ measure v1.0.0
+
+	簡易距離計測プログラム
+
+]]
+
+assert(os.loadAPI("/lib/apiloader"), "Can't load \"apiloader\"")
+
+apiloader.load("movement")
+
+local usageMessage = "Usage: measure <direction>\n <direction> = up, down, front\n"
+
+local args - {...}
+
+if #args < 1 then
+	write(usageMessage)
+end
+
+local length
+
+if args[1] == "up"then
+	length = movement.goEnd("up")
+	movement.doTimes(length, turtle.down)
+
+elseif args[1] == "down" then
+	length = movement.goEnd("down")
+	movement.doTimes(length, turtle.up)
+
+elseif args[1] == "front" then
+	length = movement.goEnd("front")
+	movement.doTimes(length, turtle.back)
+
+else
+	write(usageMessage)
+end
+
+write("Result: " .. tostring(length) .. "blocks.\n")
