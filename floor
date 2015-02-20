@@ -1,46 +1,63 @@
-local args = {...}
+--[[ floor v1.0.1
+	長方形の床貼りプログラム。
 
-local length = 5
-local width = 3
+	Author: Igaguri (2015)
+]]
 
-if #args >= 1 then
-	length = math.floor(args[1]/2)
-end
+---- 関数 ----
 
-if #args >= 2 then
-	width = args[2]
-end
-
-local function pd()
+local function putDown()
 	turtle.digUp()
 	turtle.digDown()
 	turtle.placeDown()
 end
 
-local function f()
+local function forceForward()
 	turtle.dig()
 	turtle.forward()
 end
 
 local function putLine(n)
 	for xPos = 1, n-1 do
-		pd()
-		f()
+		putDown()
+		forceForward()
 	end
-	pd()
+	putDown()
 end
 
-for i = 1, length do
+---- main ----
+
+-- 引数処理
+local args = {...}
+
+assert(#args < 2, 	"ERROR: There are too few arguments. \n"
+					.. " floor <length> <width> \n")
+
+local length = args[1]
+local width = args[2]
+
+-- まず偶数分は往復しながら置く
+while length >= 2 do
 	turtle.turnRight()
 	putLine(width)
 
 	turtle.turnLeft()
-	f()
+	forceForward()
 	turtle.turnLeft()
 	putLine(width)
 	turtle.turnRight()
-	f()
+	forceForward()
+
+	length = length - 2
 end
 
+-- 奇数の時は残りを置く
+if length == 1 then
+	turtle.turnRight()
+	putLine(width)
+	turtle.turnLeft()
+end
+
+-- 回収のために少し下がる。
 turtle.back()
 turtle.back()
