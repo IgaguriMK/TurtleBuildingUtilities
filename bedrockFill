@@ -1,0 +1,61 @@
+--[[ bedrockFill v1.0.0
+
+	クァーリーで掘った後の岩盤層の凹凸を埋めるプログラム。
+
+	Author: Igaguri (2015)
+]]
+
+assert(os.loadAPI("/lib/apiloader"), "Can't load \"apiloader\"")
+
+apiloader.load("movement")
+
+---- 関数 ----
+
+-- 底から元の高さまでブロックを積み上げる
+local function putVert()
+	-- まず底まで行く
+	local yPos = movement.goBottom()
+
+	-- 上に上がりながらブロックを置く
+	for i = 1 , yPos do
+		turtle.placeDown()
+		turtle.up()
+	end
+	turtle.placeDown()
+end
+
+---- Main ----
+-- 引数処理
+local args = {...}
+
+assert(#args >= 2, 	"ERROR: There are too few arguments. \n"
+					.. "floor <length> <width> \n")
+
+local length = tonumber(args[1])
+local width = tonumber(args[2])
+
+-- まず偶数分は往復しながら埋める
+while length >= 2 do
+	turtle.turnRight()
+	movement.doLine(width, putVert)
+
+	turtle.turnLeft()
+	movement.forceForward()
+	turtle.turnLeft()
+	movement.doLine(width, putVert)
+	turtle.turnRight()
+	movement.forceForward()
+
+	length = length - 2
+end
+
+-- 奇数の時は残りを埋める
+if length == 1 then
+	turtle.turnRight()
+	movement.doLine(width, putVert)
+	turtle.turnLeft()
+end
+
+-- 回収のために少し下がる。
+turtle.back()
+turtle.back()

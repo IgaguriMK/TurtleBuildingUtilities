@@ -1,46 +1,46 @@
+--[[ floor v1.0.1
+	長方形の床貼りプログラム。
+
+	Author: Igaguri (2015)
+]]
+
+assert(os.loadAPI("/lib/apiloader"), "Can't load apiloader.")
+
+apiloader.load("movement")
+
+---- main ----
+
+-- 引数処理
 local args = {...}
 
-local length = 5
-local width = 3
+assert(#args >= 2, 	"ERROR: There are too few arguments. \n"
+					.. " floor <length> <width> \n")
 
-if #args >= 1 then
-	length = math.floor(args[1]/2)
-end
+local length = tonumber(args[1])
+local width = tonumber(args[2])
 
-if #args >= 2 then
-	width = args[2]
-end
-
-local function pd()
-	turtle.digUp()
-	turtle.digDown()
-	turtle.placeDown()
-end
-
-local function f()
-	turtle.dig()
-	turtle.forward()
-end
-
-local function putLine(n)
-	for xPos = 1, n-1 do
-		pd()
-		f()
-	end
-	pd()
-end
-
-for i = 1, length do
+-- まず偶数分は往復しながら置く
+while length >= 2 do
 	turtle.turnRight()
-	putLine(width)
+	movement.putLine(width)
 
 	turtle.turnLeft()
-	f()
+	movement.forceForward()
 	turtle.turnLeft()
-	putLine(width)
+	movement.putLine(width)
 	turtle.turnRight()
-	f()
+	movement.forceForward()
+
+	length = length - 2
 end
 
+-- 奇数の時は残りを置く
+if length == 1 then
+	turtle.turnRight()
+	movement.putLine(width)
+	turtle.turnLeft()
+end
+
+-- 回収のために少し下がる。
 turtle.back()
 turtle.back()
