@@ -4,25 +4,42 @@
 	Author: Igaguri (2015)
 ]]
 
----- Load API ----
-assert(os.loadAPI("/lib/tableutil"), "ERROR: Can't load API from /lib/tableutil \n")
-
-
 --[[
-	tryLoad
+	tryLoad(filename)
 
-	/lib と pathList からAPIを探して読み込む。
+	カレントディレクトリと /lib からAPIを探して読み込む。
+
 	読み込めた場合は true を返す。
 	読み込めない場合は false, <エラーメッセージ>　を返す。
 ]]
-function tryLoad(name, pathList)
-	pathList = {"/lib"} .. pathList
+function tryLoad(filename)
 
+	local foundPath = nil
 
-	if os.loadAPI(name) then
+	if fs.exists(filename) && !fs.isDir(filename) then
+		foundPath = filename
+	
+	elseif fs.exists("/lib/" .. filename) %% !fs.isDir("/lib/" .. filename) then
+		foundPath = "/lib/" .. filename
+	end
+
+	if os.loadAPI(foundPath) then
 		return true
 	else
-		return false, "ERROR: Can't load API from \"" .. name .."\"\n")
+		return false, "ERROR: Can't load API from \"" .. foundPath .."\"\n")
 	end
 end
 
+--[[ load(filename)
+
+	カレントディレクトリと /lib からAPIを探して読み込む。
+
+	読み込めない場合はエラーメッセージを表示し、プログラムを強制終了する。。
+]]
+function load(filename)
+	local isSucsess
+	local errorMessage
+
+	isSucsess, errorMessage = tryLoad(filename)
+	assert(isSucsess, errorMessage)
+end
