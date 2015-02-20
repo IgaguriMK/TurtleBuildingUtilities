@@ -1,67 +1,74 @@
-local args = {...}
+--[[ stbridge
 
-function loadFile(file)
-  if os.loadAPI(file) then
-    return true
-  else
-    print (file.." : Can't load API!!")
-    return false
-  end 
-end
+	真っ直ぐなガード付きの橋桁を建設する。
 
-loadFile("tfg")
+]]
 
-local length = 5
+assert(os.loadAPI("/lib/apiloader"), "Can't load apiloader.")
 
-if #args >= 1 then
-	length = math.floor(args[1]/2)
-end
+apiloader.load("movement")
+apiloader.load("tfg")
 
-local function pd()
-	turtle.digUp()
-	turtle.digDown()
-	turtle.placeDown()
-end
+---- function
 
-local function pf()
+local function replaceFront()
 	turtle.dig()
 	turtle.place()
 end
 
-local function f()
-	turtle.dig()
-	turtle.forward()
-end
+---- Main ----
+local args = {...}
 
-for i = 1, length do
+assert(#args >= 2, 	"ERROR: There are too few arguments. \n"
+					.. "stbridge <length> <width> \n")
+
+local length = tonumber(args[1])
+local width = tonumber(args[2])
+
+assert(width >= 3, "Error: width must be equal or lager than 3")
+
+while length >= 2 do
 	tfg.itemCollect(1)
+
 	turtle.turnLeft()
-	pf()
+	replaceFront()
 	turtle.turnRight()
 	turtle.turnRight()
-	pd()
-	f()
-	pd()
-	f()
-	pd()
-	pf()
+	
+	movement.putLine(width - 2)
+
+	replaceFront()
+
 	turtle.turnLeft()
-	f()
+	movement.force.forward()
+
 	turtle.turnRight()
-	pf()
+	replaceFront()
 	turtle.turnLeft()
 	turtle.turnLeft()
-	pd()
-	f()
-	pd()
-	f()
-	pd()
-	pf()
+
+	movement.putLine(width - 2)
+
+	replaceFront()
 	turtle.turnRight()
-	f()
+	movement.force.forward()
+
+	length = length -2
 end
 
-turtle.turnRight()
-turtle.turnRight()
-turtle.forward()
-turtle.forward()
+if length == 1 then
+	tfg.itemCollect(1)
+
+	turtle.turnLeft()
+	replaceFront()
+	turtle.turnRight()
+	turtle.turnRight()
+	
+	movement.putLine(width - 2)
+
+	replaceFront()
+	turtle.turnLeft()
+end
+
+turtle.back()
+turtle.back()
