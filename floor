@@ -4,49 +4,32 @@
 	Author: Igaguri (2015)
 ]]
 
----- 関数 ----
+assert(os.loadAPI("/lib/apiloader"), "Can't load apiloader.")
 
-local function putDown()
-	turtle.digUp()
-	turtle.digDown()
-	turtle.placeDown()
-end
-
-local function forceForward()
-	turtle.dig()
-	turtle.forward()
-end
-
-local function putLine(n)
-	for xPos = 1, n-1 do
-		putDown()
-		forceForward()
-	end
-	putDown()
-end
+apiloader.load("movement")
 
 ---- main ----
 
 -- 引数処理
 local args = {...}
 
-assert(#args < 2, 	"ERROR: There are too few arguments. \n"
+assert(#args >= 2, 	"ERROR: There are too few arguments. \n"
 					.. " floor <length> <width> \n")
 
-local length = args[1]
-local width = args[2]
+local length = tonumber(args[1])
+local width = tonumber(args[2])
 
 -- まず偶数分は往復しながら置く
 while length >= 2 do
 	turtle.turnRight()
-	putLine(width)
+	movement.putLine(width)
 
 	turtle.turnLeft()
-	forceForward()
+	movement.forceForward()
 	turtle.turnLeft()
-	putLine(width)
+	movement.putLine(width)
 	turtle.turnRight()
-	forceForward()
+	movement.forceForward()
 
 	length = length - 2
 end
@@ -54,7 +37,7 @@ end
 -- 奇数の時は残りを置く
 if length == 1 then
 	turtle.turnRight()
-	putLine(width)
+	movement.putLine(width)
 	turtle.turnLeft()
 end
 
