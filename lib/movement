@@ -55,7 +55,7 @@ forceForward = force.forward
 function doLine(n, func)
 	for i = 1, n-1 do
 		func(i)
-		forceForward()
+		force.forward()
 	end
 	func(n)
 end
