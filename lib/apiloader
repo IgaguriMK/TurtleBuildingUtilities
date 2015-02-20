@@ -1,0 +1,28 @@
+--[[
+	ApiLoader v1.0.0
+
+	Author: Igaguri (2015)
+]]
+
+---- Load API ----
+assert(os.loadAPI("/lib/tableutil"), "ERROR: Can't load API from /lib/tableutil \n")
+
+
+--[[
+	tryLoad
+
+	/lib と pathList からAPIを探して読み込む。
+	読み込めた場合は true を返す。
+	読み込めない場合は false, <エラーメッセージ>　を返す。
+]]
+function tryLoad(name, pathList)
+	pathList = {"/lib"} .. pathList
+
+
+	if os.loadAPI(name) then
+		return true
+	else
+		return false, "ERROR: Can't load API from \"" .. name .."\"\n")
+	end
+end
+
