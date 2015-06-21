@@ -1,0 +1,70 @@
+local args = {...}
+
+function checkFront(n)
+	if turtle.detect() then
+		return true
+	end
+
+	if n == 0 then
+		return false
+	else
+		turtle.forward()
+		local res = checkFront(n-1)
+		turtle.back()
+		return res
+	end
+end
+
+
+assert(#args == 1, 	"ERROR: There are wrong number of arguments. \n"
+					.. " floor <linenum>\n")
+
+local linenum = tonumber(args[1])
+
+local countR = 0
+local countF = 0
+
+while linenum >= 2 do
+	while(checkFront(2)) do
+		turtle.dig()
+		turtle.forward()
+	end
+
+	turtle.turnRight()
+	turtle.forward()
+	turtle.forward()
+	turtle.turnRight()
+
+	while(checkFront(2)) do
+		turtle.dig()
+		turtle.forward()
+	end
+
+	turtle.turnLeft()
+	turtle.forward()
+	turtle.forward()
+	turtle.turnLeft()
+
+	linenum = linenum - 2
+	countR = countR + 4
+end
+
+if linenum == 1 then
+	while(checkFront(2)) do
+		turtle.dig()
+		turtle.forward()
+		countF = countF + 1
+	end
+
+	while(countF > 0) do
+		turtle.back()
+		countF = countF - 1
+	end
+end
+
+turtle.turnRight()
+
+while(countR > 0) do
+	turtle.back()
+	countR = countR - 1
+end
