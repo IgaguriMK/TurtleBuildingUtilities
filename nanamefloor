@@ -20,14 +20,14 @@ end
 
 while length >= 2 do
 	tfg.itemCollect(1)
-	movement.doLine(5, turtle.placeDown)
+	movement.putLine(width)
 
 	movement.force.forward()
 	turtle.turnLeft()		
 	movement.force.forward()
 	turtle.turnLeft()		
 
-	movement.doLine(5, turtle.placeDown)
+	movement.putLine(width)
 
 	turtle.turnRight()
 	movement.force.forward()
@@ -38,5 +38,5 @@ while length >= 2 do
 end
 
 if length == 1 then
-	movement.doLine(5, turtle.placeDown)
+	movement.doLine(width, turtle.placeDown)
 end
