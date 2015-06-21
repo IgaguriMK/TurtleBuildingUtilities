@@ -1,0 +1,21 @@
+-- 引数処理
+local args = {...}
+
+assert(#args == 1, 	"ERROR: There are wrong number of arguments. \n"
+					.. " putLine <length> \n")
+
+local length = tonumber(args[1])
+
+local count = 0
+while( turtle.detectDown() and count < length ) do
+	turtle.forward()
+	count = count + 1
+end
+
+turtle.up()
+
+while( count > 0 ) do
+	turtle.back()
+	turtle.placeDown()
+	count = count - 1
+end
