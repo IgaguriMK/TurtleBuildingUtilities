@@ -30,16 +30,19 @@ while linenum >= 2 do
 		turtle.forward()
 	end
 
+	turtle.forward()
 	turtle.turnRight()
 	turtle.forward()
 	turtle.forward()
 	turtle.turnRight()
+	turtle.forward()
 
 	while(checkFront(2)) do
 		turtle.dig()
 		turtle.forward()
 	end
 
+	turtle.forward()
 	turtle.turnLeft()
 	turtle.forward()
 	turtle.forward()
