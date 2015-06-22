@@ -62,7 +62,9 @@ end
 
 -- 通行可能なように直線状に床を置く
 function putLine(n)
-	doLine(n, putFloorBlock)
+	doLine(n, function(k)
+		putFloorBlock()
+	end)
 end
 
 --[[ tryWhileSucess

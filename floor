@@ -19,6 +19,7 @@ assert(#args >= 2, 	"ERROR: There are too few arguments. \n"
 local length = tonumber(args[1])
 local width = tonumber(args[2])
 
+
 -- まず偶数分は往復しながら置く
 while length >= 2 do
 	turtle.turnRight()
