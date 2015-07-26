@@ -1,0 +1,4 @@
+turtle.select(1)
+while turtle.placeDown() do
+    turtle.digDown()
+end
