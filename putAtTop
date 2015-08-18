@@ -1,0 +1,18 @@
+local count = 0
+
+while(turtle.detect()) do
+	turtle.up()
+	count = count + 1
+end
+
+turtle.back()
+turtle.down()
+turtle.place()
+turtle.down()
+turtle.forward()
+count = count -2
+
+while(count > 0) do
+	turtle.down()
+	count = count - 1
+end
