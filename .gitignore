@@ -2,3 +2,4 @@ log
 *.html
 tmp
 data/*
+startup
