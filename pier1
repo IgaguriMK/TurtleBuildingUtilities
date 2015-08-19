@@ -84,13 +84,31 @@ end
 local args = {...} -- Get arguments
 
 local count = 1 -- number of piers
+local takeFirstSpace = false
+local pierSpace = 16
 
 turtle.select(1)
 assert(turtle.getItemCount(1) > 0, "NO BLOCKS!!\n")
 
+if #args == 0 then
+	print "pier1 num flag space"
+	print "    flag is \"s\" or \"n\""
+	shell.exit()
+end
+
 -- get number of piers
 if #args >= 1 then
 	count = tonumber(args[1])
+end
+
+if #args >= 3 then
+	pierSpace = tonumber(args[3])
+end
+
+if #args >= 2 and args[2] == "s" then
+	for i = 1, pierSpace do
+		turtle.forward()
+	end
 end
 
 turtle.forward()
@@ -102,7 +120,7 @@ for pierNum = 1, count do
 
 	-- Move next positioon
 	if pierNum < count then
-		for i = 1, 10 do
+		for i = 1, pierSpace do
 			turtle.forward()
 		end
 	end
@@ -111,7 +129,15 @@ end
 -- Return starting point
 turtle.up()
 turtle.up()
+
 for i = 1, (14 * count - 10) + 1 do
 	turtle.back()
 end
+
+if #args >= 2 and args[2] == "s" then
+	for i = 1, pierSpace do
+		turtle.back()
+	end
+end
+
 turtle.down()
