@@ -1,0 +1,54 @@
+local count = 7
+
+local args = {...}
+
+if #args >= 1 then
+	count = tonumber(args[1])
+end
+
+turtle.select(1)
+if turtle.getItemCount(1) <= 0 then
+	print "No Block!!"
+	return 1
+end
+
+for i = 1, count do
+	turtle.up()
+	turtle.placeDown()
+end
+
+turtle.forward()
+turtle.turnRight()
+turtle.forward()
+turtle.turnRight()
+
+for i = 1, count do
+	turtle.down()
+
+	if i ~= 1 then
+		turtle.placeUp()
+	end
+
+	turtle.place()
+
+	if i % 2 == 1 then
+		turtle.turnRight()
+	else
+		turtle.turnLeft()
+	end
+
+	turtle.place()
+end
+
+turtle.turnRight()
+turtle.turnRight()
+turtle.dig()
+turtle.turnLeft()
+turtle.turnLeft()
+
+turtle.back()
+turtle.place()
+
+turtle.select(2)
+turtle.back()
+turtle.place()
