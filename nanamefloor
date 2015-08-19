@@ -8,6 +8,7 @@ apiloader.load("movement")
 
 local length = 3
 local width = 5
+local putCount = 0
 
 if #args >= 1 then
 	length = tonumber(args[1])
@@ -19,7 +20,11 @@ end
 
 
 while length >= 2 do
-	tfg.itemCollect(1)
+	if 64 - putCount <= 2 * width + 8 then
+		tfg.itemCollect(1)
+		putCount = 0
+	end
+
 	movement.putLine(width)
 
 	movement.force.forward()
